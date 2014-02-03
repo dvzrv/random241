@@ -3,16 +3,17 @@
 import logging
 import cv
 import numpy as np
-#import time
+import time
 
 # Bool to define wether to capture the cam or not
 capture = True
 # Bool to define wether to show the capture stream or not
 showStream = True
-white_threshold = 30.0
+white_threshold = 15.0
 checked = np.zeros((1, 1), dtype=np.int)
 mat = np.zeros((1, 1))
 clusters = []
+balances = []
 
 
 def capture(camNumber, showStream):
@@ -48,10 +49,11 @@ def bgr2gray(mat):
 
 
 # Find a white dot in the black input matrix
-def find_dot(mat_input):
+def harvest_entropy(mat_input):
     global mat
     global checked
     global clusters
+    global balances
     mat = mat_input.copy()
     if np.ndim(mat) >= 2:
         # Create array to hold the already checked pixels
@@ -78,7 +80,13 @@ def find_dot(mat_input):
             #print balance_point
             # Empty the global clusters variable again
             del clusters[:]
-            return balance_point
+            balances.append([time.time(), balance_point])
+            mean = mean_balances()
+            logging.info('%s, %s (balance mean)', mean[1], mean[0])
+            floats = coordinate_to_float(balance_point[0], balance_point[1])
+            logging.info('%s, %s (float)', floats[1], floats[0])
+            #return balance_point
+            return floats
     else:
         logging.error('Input matrix has wrong dimension!')
 
@@ -153,5 +161,26 @@ def cluster_to_balance_point():
     return [x_balance, y_balance]
 
 
-# TODO: Function to add up balances
-# TODO: Function to calculate forced balance
+# Displays the mean balance calculated from all balances
+def mean_balances():
+    global balances
+    mean_balance = [0.0, 0.0]
+    for balance in balances:
+        mean_balance[0] = mean_balance[0] + balance[1][0]
+        mean_balance[1] = mean_balance[1] + balance[1][1]
+    mean_balance[0] = mean_balance[0] / float(len(balances))
+    mean_balance[1] = mean_balance[1] / float(len(balances))
+    return mean_balance
+
+
+# Calculates float value between 0.0 and 1.0 from coordinate
+# TODO: insert on-the-fly mean_balance as parameter
+def coordinate_to_float(x, y):
+    global mat
+    width = float(len(mat))
+    height = float(len(mat[0]))
+#    balance_dim = [width / 2, height / 2]
+    floatx = x / width
+    floaty = y / height
+    return [floatx, floaty]
+# TODO: Function to calculate floats from mean_balance on the fly
