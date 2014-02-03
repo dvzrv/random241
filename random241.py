@@ -16,7 +16,7 @@ time_delta = 60 * 60 / 2
 logging.basicConfig(filename='random241.log',
                     format='%(asctime)s %(message)s',
                     filemode='w', level=logging.INFO)
-
+last_time = time.time()
 
 # Read parameters
 params = arg.read_params()
@@ -41,17 +41,21 @@ if frame is not None:
     time_delta = time_delta + time.time()
 
     # Setup OSC
-    osc.connect_to_server("dvzrv", 57120)
+    osc.connect_to_server("127.0.0.1", 57120)
 
     # Main loop for accessing the camera and calculating random numbers from it
     #while True:
     while time_delta > time.time():
+#        last_time = time.time()
         img = cv.QueryFrame(cam)
         # Get a numpy array with rgb values
-        #frame = sensor.frame_to_mat(stream)
-        randomness = sensor.find_dot(sensor.bgr2gray(sensor.frame_to_mat(img)))
+        mat_from_frame = sensor.frame_to_mat(img)
+        gray_mat = sensor.bgr2gray(mat_from_frame)
+        randomness = sensor.harvest_entropy(gray_mat)
         if randomness is not None:
-            osc.send_osc_msg_to_server(randomness)
+            delta = time.time() - last_time
+            last_time = time.time()
+            osc.send_msg(delta, randomness)
         if showStream:
             while stop_key != ord("q"):
                 cv.ShowImage("Americium 241", img)
