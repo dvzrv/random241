@@ -58,13 +58,11 @@ You might have to improvise a little - depending on your hardware - to make thin
 ![Americium 241 sample covered with Sugru, fixed over webcam sensor chip](https://raw2.github.com/davezerave/random241/master/howto/IMG_6550.JPG)
 
 **Note of advice**
-Unfortunately (for me), is not a webcam, but can be used as one, if you press a button on the backside of it, while connected via USB. As I don't to open a box and press a button on a camera with an Americium 241 sample in it every time I want to use it, I had to solder a push button switch to it.
-That turned out to be quite a messy job (because the button is very tiny and so are its contacts on the board). If you end up with the same model of camera, do this first, before you place the sample on top!
+Unfortunately (for me), the Gsmart Mini 3 is not a webcam, but can be used as one, if you press a button on the backside of it, while connected via USB. As I don't want to open a box and press a button on a camera with an Americium 241 sample in it, every time I want to use it, I had to solder a push button switch to it.
+That turned out to be quite a messy job (because the button is very tiny and so are its contacts on the board). If you end up with the same model of camera, do this first, before you place the sample on top of the sensor chip!
 
-After that was done, I was able to place the camera in the above mentioned casing, while leading the USB cable and push button cable out.
+After that was done, I was able to place the camera in the above mentioned casing, while leading the USB and push button switch cable out.
 ![Americium 241 sample on camera in open casing](https://raw2.github.com/davezerave/random241/master/howto/IMG_6757.JPG)
 As you can see here, I had to use two additional steel panels to complete the casing in front and back of the box.
-The box is made from steel panels all around otherwise, but had some open spaces in front and back (for air circulation in its previous use-case-scenario). Completely closed, it looks like this:
-![Americium 241 entropy harvester](https://raw2.github.com/davezerave/random241/master/howto/IMG_6761.JPG)
-
+The box is made from steel panels all around otherwise, but had some open spaces in front and back (for air circulation in its previous use-case-scenario).
 This device is now USB pluggable and on/off switchable!
