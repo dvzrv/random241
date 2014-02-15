@@ -52,10 +52,10 @@ The lens mount has a certain diameter. To not have the sample fall on top of the
 ![Americium 241 sample with curb](https://raw2.github.com/davezerave/random241/master/howto/IMG_6547.JPG)
 
 Now the sample was put on top of the lens mount with the Americium pointing directly at the chip.
-![Americium 241 sample over webcam sensor chip](https://github.com/davezerave/random241/blob/master/howto/IMG_6549.JPG)
+![Americium 241 sample over webcam sensor chip](https://raw2.github.com/davezerave/random241/master/howto/IMG_6549.JPG)
 
 You might have to improvise a little - depending on your hardware - to make things work. [Sugru](http://sugru.com/about/) was my friend, fixing the sample over the camera chip. I know, it looks ugly, but it certainly gets the job done!
-![Americium 241 sample covered with Sugru, fixed over webcam sensor chip](https://github.com/davezerave/random241/blob/master/howto/IMG_6550.JPG)
+![Americium 241 sample covered with Sugru, fixed over webcam sensor chip](https://raw2.github.com/davezerave/random241/master/howto/IMG_6550.JPG)
 
 **Note of advice**
 Unfortunately (for me), is not a webcam, but can be used as one, if you press a button on the backside of it, while connected via USB. As I don't to open a box and press a button on a camera with an Americium 241 sample in it every time I want to use it, I had to solder a push button switch to it.
