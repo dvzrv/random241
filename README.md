@@ -22,6 +22,8 @@ For the [remote_control](https://github.com/davezerave/random241/tree/master/rem
 - [AdaFruit_BBIO](https://github.com/adafruit/adafruit-beaglebone-io-python)
 - liblo
 
+If you want to build your own random number generator from scratch, you can follow my little [howto guide](https://github.com/davezerave/random241/tree/master/howto) (it's far from being perfect though).
+
 Features:
 -----
 
