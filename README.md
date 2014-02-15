@@ -28,6 +28,7 @@ Features:
 -----
 
 As this is an ongoing project and was executed primarily within the boundaries of my course work for [Audiovisual Programming - Embedded Systems](https://github.com/redFrik/udk10-Embedded_Systems) led by Fredrik Olofsson at UDK Berlin in 2013/ 2014, bugs can be expected (especially if you set up your own device!) and the reporting of those is very welcome!
+For an audio example, check out my [1)3\/1532 Bandcamp](https://deviser.bandcamp.com/album/no-place-like-dev-random-random241).
 
 Currently the list of features for the [entropy_harvester](https://github.com/davezerave/random241/tree/master/entropy_harvester) is as follows:
 - Grabbing of bright areas (aka regions of interest in pixels) above a certain threshold from a webcam
