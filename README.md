@@ -48,6 +48,6 @@ TODOs:
 ------
 - Externalization of settings for [remote_control](https://github.com/davezerave/random241/tree/master/remote_control) and [entropy_harvester](https://github.com/davezerave/random241/tree/master/entropy_harvester)
 - Further settings and advancements in sound for the SuperCollider script
-- Performance enhancements for entropy_harvester using different search algorithm (maybe even swith to C++)
+- Performance enhancements for entropy_harvester using different search algorithm (maybe even switch to C++)
 - Detection of false positives (pixel errors) on wacky cameras
 
