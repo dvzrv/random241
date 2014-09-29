@@ -1,16 +1,21 @@
+//TODO: use GrainFM or GrainSin?
 (
 s.waitForBoot{
-//  s.makeWindow;
+  s.makeWindow;
   s.record;
   OSCFunc.trace(true);
   OSCFunc.trace(false);
   //Dictionary for storing timing and related synths
   ~tasks = Dictionary.new();
   //maximum allowed nodes on Server
-  ~maximumSynths = 55;
+  ~maximumSynths = 300;
+  ~upperFrequency = 16000;
+  ~lowerFrequency = 20;
+  ~channels = 8; //define channels for panning (2,4,8 allowed)
   ~allowOSC = true;
   ~test = 0;
   // Filter SynthDef for post-processing
+  // TODO: use filter only for some Synths (long ones)
   ~filter = SynthDef(\filter, {|in, mix = 0.68, room = 0.54, damp = 0.15, volume = 0.5|
     in = In.ar(0, 2);
     ReplaceOut.ar(0,
@@ -27,31 +32,61 @@ s.waitForBoot{
     |msg, time, address, receivingPort|
     var task;
     var synth;
-    var release = msg[1].asFloat;
-    var freqIn = msg[2].asFloat;
-    var ampIn = msg[3].asFloat;
+    var release = msg[1].asFloat; //length (in seconds) between this spot and the one before
+    var freqIn = msg[3].asFloat; //X-values (frequency)
+    var ampIn = msg[2].asFloat; //Y-values (amplitude)
     if(~allowOSC, {
 //      ("msg: "++msg++" at port "++receivingPort++" from address "++address).postln;
       //randomized SynthDef to be played
       synth = SynthDef(time.asSymbol, {|out=0, attackTime=0.01|
-        var freq = freqIn.linexp(0.0, 1.0, 20, 18000);
+        var freq = freqIn.linexp(0.0, 1.0, ~lowerFrequency, ~upperFrequency);
         var amplitude = ampIn;
         var releaseTime = release;
         var env = EnvGen.kr(//envelope to automatically release the Synth
           Env.perc(attackTime, releaseTime, amplitude, -4), doneAction:2
         );
         var position = LinLin.kr([freqIn, ampIn].median, 0.0, 1.0, -1.0, 1.0);
-//        ("freq: "++freq++", amplitude: "++amplitude++", position: "++position).postln;
-        //TODO: make stereo by using pan!
+ //       ("freq: "++freq++", amplitude: "++amplitude++", position: "++position).postln;
         Out.ar(
           out,
-          Pan2.ar(// pan using median of freq and amplitude
-            Saw.ar(
-              freq, env, SinOsc.ar(//TODO: lower volume for bbb
-                freq, 0, env*0.5
+          switch(~channels,
+            2, {
+              Pan2.ar(// pan using median of freq and amplitude
+                Saw.ar(
+                  freq, env, SinOsc.ar(//TODO: lower volume for bbb
+                    freq, 0, env*0.9
+                  );
+                ), position
               );
-            );
-          ), position
+            },
+            4,{
+              Pan4.ar(
+                Saw.ar(
+                  freq, env, SinOsc.ar(//TODO: lower volume for bbb
+                    freq, 0, env*0.9
+                  );
+                ),
+                freqIn.linlin(0.0, 1.0, -1.0, 1.0),
+                ampIn.linlin(0.0, 1.0, -1.0, 1.0),
+                0.1
+              );
+            },
+            8,{
+              PanAz.ar(
+                8,//numChannels
+                Saw.ar(
+                  freq, env, SinOsc.ar(//TODO: lower volume for bbb
+                    freq, 0, env*0.9
+                  );
+                ),// in
+                freqIn.linlin(0.0, 1.0, 0.0, 2.0),// position
+                0.1,// level
+                release,//width
+                0.5 //orientation
+              );
+            }
+          );
+          //Pan4 for 4chan with x/y and PanAz
         );
       }).add;
       // Task for each SynthDef
@@ -89,6 +124,7 @@ s.waitForBoot{
 //      ("Number of synths playing: "++s.numSynths.asString).postln;
     });
   }, '/random');
+
   // OSCFunc for analog inputs to set
   // maximum numbers of synths, FreeVerb setttings
   OSCFunc({
